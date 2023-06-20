@@ -35,7 +35,6 @@ export default {
     },
 
     getAcceptChanges(note) {
-      // const newValue = this.$refs.input[0].value;
       if (!getStringLength(this.newNote)) {
         this.errorInput = true;
         this.$nextTick(() => {
@@ -45,26 +44,16 @@ export default {
       }
 
       this.errorInput = false;
-      // this.editingItem.name = getTrimString(newValue);
+
+      this.newNote = getTrimString(this.newNote);
+      this.$emit("edit", note, this.newNote);
+
       // const index = this.notes.findIndex((item) => item === note);
       // if (index > -1) {
-      // this.editingItem.name = getTrimString(newValue);
-      // }
-      // this.editingItem = null;
-
-      // if (!getStringLength(note.name)) {
-      // this.errorInput = true;
-      // this.editingItem = note;
-      // return;
+      //   this.newNote = getTrimString(this.newNote);
+      //   this.$emit("edit", index, this.newNote);
       // }
 
-      // this.errorInput = false;
-      const index = this.notes.findIndex((item) => item === note);
-      if (index > -1) {
-        this.newNote = getTrimString(this.newNote);
-        this.$emit("edit", index, this.newNote);
-        // this.notes[index] = this.editingItem;
-      }
       this.editingItem = null;
       this.newNote = null;
     },
@@ -84,14 +73,13 @@ export default {
         &#10005;
       </button>
       <div class="notes__wrapper">
-        <div v-if="editingItem === note" class="notes__inner">
+        <div class="notes__inner" v-if="editingItem === note">
           <input
             v-model="newNote"
             type="text"
             class="notes__input"
             ref="input"
-            @keydown.prevent.enter="getAcceptChanges(note)"
-            @blur="getAcceptChanges(note)"
+            @keydown.enter="getAcceptChanges(note)"
           />
           <button @click="getAcceptChanges(note)" class="notes__accept">
             <svg
@@ -204,6 +192,10 @@ export default {
     box-shadow: 0 30px 30px rgba(0, 0, 0, 0.02);
     border: 1px solid transparent;
 
+    &:focus-within {
+      border: 1px solid lightblue;
+    }
+
     &.is-error {
       border: 1px solid #f65828;
     }
@@ -231,7 +223,7 @@ export default {
   &__inner {
     display: flex;
     align-items: center;
-    flex: 1 0 auto;
+    flex-grow: 1;
     justify-content: space-between;
   }
 

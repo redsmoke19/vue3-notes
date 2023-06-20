@@ -35,6 +35,9 @@ export default {
       <li class="about__item">
         <p>Редактирование заметок</p>
       </li>
+      <li class="about__item">
+        <p>Работа с props и emits между компонентами</p>
+      </li>
     </ul>
   </div>
 </template>

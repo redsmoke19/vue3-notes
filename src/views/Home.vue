@@ -35,9 +35,13 @@ export default {
       this.notes = this.notes.filter((item) => item !== todo);
     },
 
-    editNote(index, newNote) {
-      this.notes[index].name = newNote;
-      console.log(newNote, index);
+    editNote(note, newNote) {
+      this.notes.map((item) => {
+        if (item === note) {
+          item.name = newNote;
+        }
+      });
+      // this.notes[index].name = newNote;
     },
   },
 

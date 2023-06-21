@@ -2,6 +2,7 @@
 import { getTrimString } from "@/common/helpers/utils";
 import Form from "@/components/Notes/Form.vue";
 import List from "@/components/Notes/List.vue";
+
 export default {
   name: "HomePage",
   components: {
@@ -16,7 +17,14 @@ export default {
   data() {
     return {
       notes: [],
+      tags: [],
     };
+  },
+
+  computed: {
+    activeTagFilter() {
+      return this.tags.filter((item) => item.isActive).map((item) => item.name);
+    },
   },
 
   methods: {
@@ -27,8 +35,13 @@ export default {
       }
     },
 
-    formHandler(value) {
-      this.notes.unshift({ name: getTrimString(value) });
+    formHandler(value, tags) {
+      this.tags = tags;
+      console.log(this.activeTagFilter);
+      this.notes.unshift({
+        name: getTrimString(value),
+        tags: this.activeTagFilter,
+      });
     },
 
     noteRemove(todo) {

@@ -1,8 +1,12 @@
 <script>
 import { getStringLength, getTrimString } from "@/common/helpers/utils";
+import TagsList from "@/components/Tags/TagsList.vue";
 
 export default {
   name: "NotesList",
+  components: {
+    TagsList,
+  },
   props: {
     notes: {
       type: Array,
@@ -62,7 +66,7 @@ export default {
 </script>
 
 <template>
-  <ul class="notes" v-if="notes.length > 0">
+  <ul class="notes" v-if="notes && notes.length > 0">
     <li
       class="notes__item"
       :class="{ 'is-error': note === editingItem ? errorInput : '' }"
@@ -169,6 +173,9 @@ export default {
           </button>
         </div>
       </div>
+      <div class="notes__tags" v-if="note.tags && note.tags.length > 0">
+        <tags-list class="is-note" :items="note.tags" />
+      </div>
     </li>
   </ul>
   <p class="notes__additive" v-else>Добавьте вашу первую заметку</p>
@@ -181,10 +188,12 @@ export default {
   margin: 0 auto;
 
   &__item {
+    position: relative;
     width: 100%;
     display: flex;
-    align-items: center;
-    padding: 18px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px 20px 18px 40px;
     margin-bottom: 20px;
     border-radius: 14px;
     background-color: #ffffff;
@@ -227,6 +236,10 @@ export default {
     justify-content: space-between;
   }
 
+  &__tags {
+    margin: 10px 0 0 0;
+  }
+
   &__input {
     padding: 0;
     margin: 0;
@@ -245,7 +258,7 @@ export default {
     margin: 0 10px 0 0;
     cursor: pointer;
     transition: opacity ease-out 0.2s;
-    position: relative;
+    position: absolute;
 
     svg {
       height: 20px;
@@ -257,9 +270,24 @@ export default {
     }
   }
 
+  &__remove {
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
   &__edit {
     opacity: 0;
     pointer-events: none;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &__accept {
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   &__additive {

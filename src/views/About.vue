@@ -36,6 +36,9 @@ export default {
         <p>Редактирование заметок</p>
       </li>
       <li class="about__item">
+        <p>Выбор тега при создании заметки</p>
+      </li>
+      <li class="about__item">
         <p>Работа с props и emits между компонентами</p>
       </li>
     </ul>
